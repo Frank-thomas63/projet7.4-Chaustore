@@ -1,0 +1,21 @@
+{% extends 'chaustore/base.html.twig' %}
+{% block title %}Chaustore{% endblock %}
+
+{% block body %}
+  <div class="container text-center">
+    <h1> Registration </h1>
+</div>
+  <div class="container mt-4">
+    {{ form_start(form) }}
+      {{ form_row(form.username, {'label': 'Last name *','attr':{'placeholder': 'Last name'}}) }}
+      {{ form_row(form.firstname, {'label': 'First name','attr':{'placeholder': 'first name'}}) }}
+      {{ form_row(form.email, {'label': 'Email *','attr':{'placeholder': 'Email'}}) }}
+      {{ form_row(form.password, {'label': 'Password *','attr':{'placeholder': 'Password'}}) }}
+     
+      {{ form_row(form.birthday) }}    
+      <p> * Obligation information </p>
+      <button type="submit" class="btn btn-success"> Registration </button>
+    {{ form_end(form) }}
+  </div>
+
+{% endblock %}
