@@ -1,9 +1,11 @@
-{% extends 'chaustore/base.html.twig' %}
+{% extends 'profile/base.html.twig' %}
 {% block title %}Chaustore{% endblock %}
 
 {% block body %}
   <div class="container mt-4" >
-  <h3> Welcom Chaustore !  </h3>
+  
+    <h3> Welcom  {{ app.user.firstname }} {{ app.user.username }} !</h3>
+    <p> Your email address is {{ app.user.email }}.
     <h2> Sheo </h2>
     <div class="row flex">
       {% for product in products %}

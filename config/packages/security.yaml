@@ -5,18 +5,25 @@ security:
         from_database:
           entity:
             class: App\Entity\User
-            property: username
+            property: email
         # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
+        # app_user_provider:
+        #     entity:
+        #         class: App\Entity\User
+        #         property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+
+            provider: from_database
+            
+            form_login:
+              login_path: login
+              check_path: login
+
             logout:
               path: /logout
               target: /
@@ -25,9 +32,7 @@ security:
             #http_basic: true
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
-            # form_login:
-            #   check_path: login
-             
+   
               
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
@@ -35,10 +40,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         Full authentication is required to access this resource- { path: ^/admin, roles: ROLE_ADMIN }
-         - { path: ^/profile, roles: ROLE_USER }
+          - { path: ^/admin, roles: ROLE_ADMIN }
+          - { path: ^/profile, roles: ROLE_USER }
 
     encoders:
       App\Entity\User:
-        algorithm: auto
+        algorithm: bcrypt
+        cost: 12
 

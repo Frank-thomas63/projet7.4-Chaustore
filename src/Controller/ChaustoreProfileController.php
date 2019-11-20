@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 
-use App\Entity\Product;
 use App\Entity\User;
+use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\UserRepository;
 use App\Repository\ProductRepository;
@@ -13,11 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Admin\AdminProductController;
+use App\Controller\ChaustoreProfileController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-class ChaustoreController extends AbstractController
+class ChaustoreProfileController extends AbstractController
 {
     /**
    * @var ProductRepository
@@ -42,16 +42,16 @@ class ChaustoreController extends AbstractController
 
 // to display the data >  pour afficher les données
   /**
-   * @Route("/", name="chaustore")
+   * @Route("/profile", name="chaustore.profile")
    * @return \Symfony\Component\HttpFoundation\Response
    */
 
   public function index(): Response
   {
-     $user= $this->UserRepository->findAll();
+     $users = $this->UserRepository->findAll();
      $products = $this->repository->findAll();
 
-     return $this->render('chaustore/index.html.twig', ['products' => $products, 'user'=> $user]);
+     return $this->render('profile/index.html.twig', ['products' => $products, 'users'=> $users]);
   }
 
  

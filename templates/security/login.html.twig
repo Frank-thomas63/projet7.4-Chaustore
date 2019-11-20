@@ -15,13 +15,12 @@
     {% endif %}
     <form action="{{ path('login') }}" method="POST">
       <div class="form-group">
-        <label for="username"> Administrator's name </label>
-        <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}">
+        <label for="username"> Your email </label>
+        <input type="text" id="username" name="_username" class="form-control" required value="{{ last_username }}">
       </div>
-
       <div class="form-group">
         <label for="password"> Password </label>
-        <input type="password" id="password" name="_password" class="form-control">
+        <input type="password" id="password" name="_password" required class="form-control">
       </div>
 
       <button type="submit" class="btn btn-primary"> Connection </button>
