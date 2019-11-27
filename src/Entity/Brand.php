@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BrandRepository")
+ * @UniqueEntity("name") //  allows to have only one brand
  */
 class Brand
 {
@@ -20,7 +23,7 @@ class Brand
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
@@ -28,6 +31,12 @@ class Brand
      * @ORM\OneToMany(targetEntity="Product", mappedBy="brand")
      */
     private $brand_id;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $logo;
+
 
     public function __construct()
     {
@@ -81,4 +90,37 @@ class Brand
 
         return $this;
     }
+
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+    /**
+     * @return null|string
+     */
+
+    public function getFilename(): ?string
+    {
+        return $this->Filename;
+    }
+
+     /**
+     * @return Brand
+     */
+
+    public function setFilename(?string $Filename): self
+    {
+        $this->Filename = $Filename;
+
+        return $this;
+    }
+
+
 }

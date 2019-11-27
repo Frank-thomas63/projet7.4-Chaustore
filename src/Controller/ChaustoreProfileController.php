@@ -50,10 +50,19 @@ class ChaustoreProfileController extends AbstractController
   {
      $users = $this->UserRepository->findAll();
      $products = $this->repository->findAll();
-
+      
      return $this->render('profile/index.html.twig', ['products' => $products, 'users'=> $users]);
   }
+  public function show($id)
+  {
+    $user = $this->getDoctrine()
+        ->getRepository(Product::class)
+        ->findOneByIdJoinedToUserName($id);
 
+    $user = $user->getUser();
+  }
+    
+}
  
 
-}
+

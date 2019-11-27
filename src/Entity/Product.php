@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
+ * @UniqueEntity("name") //  allows to have only one product
  */
 class Product
 {
@@ -20,7 +23,7 @@ class Product
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
@@ -46,11 +49,12 @@ class Product
      */
     private $color;
 
-    /**
+   /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $image;
+    private $image;   
+
 
     /**
      * @ORM\Column(type="integer")
@@ -155,13 +159,12 @@ class Product
     {
         return $this->image;
     }
-
     public function setImage(?string $image): self
     {
         $this->image = $image;
-
         return $this;
     }
+
 
     public function getPrice(): ?int
     {

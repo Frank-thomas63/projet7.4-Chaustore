@@ -19,6 +19,19 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findOneByIdJoinedToUserName($user)
+    {
+    $entityManager = $this->getEntityManager();
+
+    $query = $entityManager->createQuery(
+        'SELECT u.name
+         FROM App\Entity\User u
+         WHERE u.id = :id'
+    )->setParameter('id', $user);
+
+    return $query->getOneOrNullResult();
+}
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

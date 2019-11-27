@@ -4,9 +4,14 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StockRepository")
+ * @UniqueEntity(
+ *    fields={"product", "size"},
+ *    message="you already have stock in this size."
+ * )
  */
 class Stock
 {
@@ -24,11 +29,13 @@ class Stock
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Size", inversedBy="size_id")
+     * @ORM\JoinColumn(name="size_id", referencedColumnName="id")
      */
     private $size;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="product_id")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      */
     private $product;
 
