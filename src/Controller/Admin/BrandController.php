@@ -56,10 +56,16 @@ class BrandController extends AbstractController
 
       if($form->isSubmitted() && $form->isValid())
       { 
-          $file = $brand->getLogo();  
-          
-          $file->move($this->getParameter('upload_directory'), $fileLogo);
-          $brand->setLogo($fileLogo);
+           $file = $brand->getLogo();
+            if($file == null)
+            {   
+              $product -> setLogo(getLogo()) ;            
+            }
+            else{
+              $fileName = md5(uniqid()).'.'.$file->guessExtension();
+              $file->move($this->getParameter('upload_directoryProduct'), $Name);
+              $product->setLogo($fileName);
+            }
           $this->em->persist($brand);
           $this->em->flush();
           $this->addFlash('success', 'brand well added successfully');
@@ -89,11 +95,16 @@ class BrandController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $file = $brand->getLogo();  
-            $fileLogo = uniqid().'.'.$file->guessExtension();
-            $file->move($this->getParameter('upload_directory'), $fileLogo);
-            $brand->setLogo($fileLogo);
-            $this->em->persist($brand);
+           $file = $brand->getLogo();
+              if($file == null)
+              {   
+                $product -> setLogo(getLogo()) ;            
+              }
+              else{
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move($this->getParameter('upload_directoryProduct'), $Name);
+                $product->setLogo($fileName);
+              }
             $this->em->flush();
             $this->addFlash('success', 'mark well edit successfully');
             return $this->redirectToRoute('admin.brand.index');

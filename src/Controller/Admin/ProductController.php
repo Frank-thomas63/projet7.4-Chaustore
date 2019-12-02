@@ -2,16 +2,19 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\Admin\AdminProductController;
 use App\Entity\Product;
-use App\Repository\ProductRepository;
 use App\Form\ProductType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use App\Repository\SizeRepository;
+use App\Repository\StockRepository;
+use App\Repository\ProductRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\Admin\AdminProductController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProductController extends AbstractController
 {
@@ -27,7 +30,7 @@ class ProductController extends AbstractController
      private $em;
 
 
-    public function __construct( productRepository $repository, ObjectManager $em)
+    public function __construct(ProductRepository $repository, ObjectManager $em)
     {
         $this->repository = $repository;
         $this->em = $em;
@@ -41,10 +44,9 @@ class ProductController extends AbstractController
      */
 
     public function index()
-    {
+    {   
        $products = $this->repository->findAll();
-
-       return $this->render('admin/product/index.html.twig', ['products' => $products]);
+       return $this->render('admin/product/index.html.twig', ['products'=>$products]);
     }
 
   
@@ -57,9 +59,13 @@ class ProductController extends AbstractController
       $product = new product();
       $form = $this->createForm(ProductType::class, $product);
       $form->handleRequest($request);
-
+      
       if($form->isSubmitted() && $form->isValid())
       {
+          $file = $form->get('image')->getData();
+          $fileName = md5(uniqid()).'.'.$file->guessExtension();
+          $file->move($this->getParameter('upload_directoryProduct'), $Name);
+          $product->setImage($fileName);
           $this->em->persist($product);
           $this->em->flush();
           $this->addFlash('success', 'product well added successfully');
@@ -83,17 +89,25 @@ class ProductController extends AbstractController
 
     public function edit(product $product, Request $request)
     {
-
         $form = $this->createForm(productType::class, $product);
         $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $this->em->flush();
-            $this->addFlash('success', 'product well edit successfully');
-            return $this->redirectToRoute('admin.product.index');
-        }
-
+          
+          if($form->isSubmitted() && $form->isValid())
+          { 
+            $product = $this->repository->findAll();       
+            $file = $form->get('image')->getData();
+            
+            if($file != null)
+             {
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move($this->getParameter('upload_directoryProduct'), $Name);
+                $product->setImage($fileName);
+              }
+                $this->em->flush();
+                $this->addFlash('success', 'product well edit successfully');
+                return $this->redirectToRoute('admin.product.index');
+              }
+          
         return $this->render('admin/product/edit.html.twig', [
           'product' => $product,
           'form' => $form->createView()

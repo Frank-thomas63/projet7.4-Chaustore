@@ -1,23 +1,21 @@
 <?php
 
 namespace App\Form;
-use App\Controller\ProductController;
-use App\Entity\Product;
-use App\Entity\Color;
 use App\Entity\Brand;
+use App\Entity\Color;
+use App\Entity\Product;
 use App\Entity\Category;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Controller\ProductController;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
-/**
- * @Vich\Uploadable()
- */
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 
@@ -27,7 +25,12 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('image')
+            ->add('image', FileType::class, array(
+                'label' => 'Upload image',
+                'data_class' => null,
+                'required' => false,
+                
+            ))
             ->add('price', MoneyType::class, [
               'divisor' => 100,
             ])

@@ -32,7 +32,12 @@
             {% for brand in brands %}
               <tr>
                 <td> {{ brand.name }}</td>
-                <td><img src="/brand/{{ brand.logo }}" width="100" height="100"/></td>
+                <td> {% if brand.name == null %}
+                    <img src="/brand/null.svg" width="100" height="75"/>
+                  {% else %}
+                    <img src="/brand/{{ brand.logo }}" width="100" height="75"/>
+                  {% endif %}
+                </td>
                 <td class="text-right">
                   <a href="{{ path('admin.brand.edit', {id: brand.id}) }}" class="btn btn-secondary">Edit</a>
                   <form method="post" action="{{ path('admin.brand.delete', {id: brand.id} ) }}" style="display: inline-block"

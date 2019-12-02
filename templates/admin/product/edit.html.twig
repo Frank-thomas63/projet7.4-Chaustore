@@ -3,6 +3,11 @@
 {% block body %}
   <div class='container mt-4'>
     <h1> Edit Product </h1>
+    {% if product.image == null %}
+      <img src="/product/null.jpg" width="200" height="150"/>
+    {% else %}
+      <img src="/product/{{ product.image }}" width="200" height="150"/>
+    {% endif %}
       {{ include ('admin/product/_form.html.twig', { button: 'edit'}) }}
   </div>
 {% endblock %}

@@ -19,7 +19,9 @@ class BrandType extends AbstractType
         $builder
             ->add('name')
             ->add('logo', FileType::class, array(
-                'label' => 'Upload logo'
+                'label' => 'Upload logo',
+                'data_class' => null,
+                'required' => false,
             ))
             
         ;

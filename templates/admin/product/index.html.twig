@@ -24,6 +24,11 @@
         <thead>
           <tr>
             <th>Product</th>
+            <th>Price</th>
+            <th>Gender</th>
+            <th>category</th>
+            <th>brand</th>
+            <th>Product</th>
             <th class="text-right">Action</th>
           </tr>
           </thead>
@@ -31,6 +36,17 @@
             {% for product in products %}
               <tr>
                 <td> {{ product.name }} </td>
+                <td> {{ product.price| number_format() }} €  </td>
+                <td> {{ product.gender }} </td>
+                <td> {{ product.category.name }} </td> 
+                <td> {{ product.brand.name }} </td> 
+                <td>
+                  {% if product.image == null %}
+                    <img src="/product/null.svg" width="200" height="150"/>
+                  {% else %}
+                    <img src="/product/{{ product.image }}" width="200" height="150"/>
+                  {% endif %}
+                </td>
                 <td class="text-right">
                     <a href="{{ path('admin.product.edit', {id: product.id}) }}" class="btn btn-secondary">Edit</a>
                   <form method="post" action="{{ path('admin.product.delete', {id: product.id} ) }}" style="display: inline-block"

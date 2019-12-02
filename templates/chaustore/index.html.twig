@@ -10,11 +10,28 @@
         <div class="col-3">
           <div class="card">
             <div class="card-body">
-              <h5 class"card-title">
-                <a href="#">{{ product.name }}</a>
-              </h5>
-              <p class="card-text"> {{ product.image}} </p>
+                {% if product.image == null %}
+                    <img src="/product/null.svg" width="200" height="150"/>
+                {% else %}
+                <img src="/product/{{ product.image }}" width="200" height="150"/>
+                {% endif %}
+                  <h5 class"card-title">
+                    <p>{{ product.name }}</p>
+                
+                    {# <p>{{ product.size.name }}</p> #}
+                
+{#                 
+                  {% if product.stock.name == 0 %}
+                   <p>Exhausted !</p>
+                  {% elseif product.stock.name < 6 %}
+                    <p>Soon exhausted</p>
+                  {% else %}
+                    <p> In stock </p>
+                  {% endif %} #}
+                
+              </h5>      
               <div class="text-primary">{{ product.price | number_format() }} €</div>
+              </td>
             </div>
           </div>
         </div>
